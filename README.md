@@ -2,8 +2,8 @@
 Library to communicate and parse .trc files with/from LeCroy oscilloscopes.
 
 This library is based on previous work:
-* File lecroyutils/LecroyScopeData.py on [lecroyparser](https://github.com/bennomeier/leCroyParser)
-* File lecroyutils/LecroyScopeControl.py on [LecroyScope_python_snippet](https://github.com/ethz-pes/LecroyScope_python_snippet)
+* File src/lecroyutils/data.py on [lecroyparser](https://github.com/bennomeier/leCroyParser)
+* File src/lecroyutils/control.py on [LecroyScope_python_snippet](https://github.com/ethz-pes/LecroyScope_python_snippet)
 
 ## Features
 * remote control LeCroy oscilloscopes over vxi11

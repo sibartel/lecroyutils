@@ -22,7 +22,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------------------
-File lecroyutils/LecroyScopeData.py based on [lecroyparser](https://github.com/bennomeier/leCroyParser):
+File src/lecroyutils/data.py based on [lecroyparser](https://github.com/bennomeier/leCroyParser):
 
 MIT License
 
@@ -64,7 +64,7 @@ Updated 2020 Jeroen van Oorschot, Eindhoven University of Technology
 
 
 ----------------------------------------------------------------------
-File lecroyutils/LecroyScopeControl.py based on [LecroyScope_python_snippet](https://github.com/ethz-pes/LecroyScope_python_snippet):
+File src/lecroyutils/control.py based on [LecroyScope_python_snippet](https://github.com/ethz-pes/LecroyScope_python_snippet):
 
 Copyright (c) 2020, ETH Zurich, Power Electronic Systems Laboratory, T. Guillod
 

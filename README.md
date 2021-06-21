@@ -18,7 +18,7 @@ This library is based on previous work:
 
 ## Installation
 
-lecroyutils is available at pip:
+lecroyutils is available in the Python Package Index (PyPi). It may be installed with pip:
 
 ```bash
 > pip install lecroyutils
@@ -43,6 +43,12 @@ data = scope.waveform('C1')
 
 scope.save_waveform('C1', 'C1_00000_Lecroy.trc')
 ```
+
+## Related
+* [lecroyparser](https://github.com/bennomeier/leCroyParser)
+* [LecroyScope_python_snippet](https://github.com/ethz-pes/LecroyScope_python_snippet)
+* [lecroydso](https://github.com/TeledyneLeCroy/lecroydso)
+* [python-vxi11](https://github.com/python-ivi/python-vxi11)
 
 ## License
 lecroyutils is licensed under the [MIT](LICENSE) license.

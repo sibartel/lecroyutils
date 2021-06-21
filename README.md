@@ -27,12 +27,12 @@ lecroyutils is available in the Python Package Index (PyPi). It may be installed
 ## Usage
 
 ```python
-from lecroyutils import LecroyScopeData
+from lecroyutils.data import LecroyScopeData
 
 # Parse a local .trc file
 data = LecroyScopeData.parse_file('C2_00000_Lecroy.trc')
 
-from lecroyutils import LecroyScope, TriggerMode, TriggerType
+from lecroyutils.control import LecroyScope, TriggerMode, TriggerType
 
 # Connect to a scope over vxi11
 scope = LecroyScope('127.0.0.1')

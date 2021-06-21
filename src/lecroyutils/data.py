@@ -21,8 +21,8 @@ class LecroyScopeData(object):
 
         self.endianness = "<"
 
-        # convert the first 50 bytes to a string to find position of substring WAVEDESC
         try:
+            # convert the first 50 bytes to a string to find position of substring WAVEDESC
             self._pos_wavedesc = self.data[:50].decode("ascii", "replace").index("WAVEDESC")
 
             self._comm_order = self.parse_int16(34)  # big endian (>) if 0, else little
@@ -117,9 +117,6 @@ class LecroyScopeData(object):
             raise DataCorruptException(f'Data corrupt: {self.source_desc}')
 
     def unpack(self, pos, format_specifier, length):
-        """ a wrapper that reads binary data
-        in a given position in the file, with correct endianness, and returns the parsed
-        data as a tuple, according to the format specifier. """
         start = pos + self._pos_wavedesc
         return np.frombuffer(self.data[start:start + length], self.endianness + format_specifier, count=1)[0]
 
@@ -160,11 +157,6 @@ class LecroyScopeData(object):
         return datetime(year, month, day, hour, minute, second, microsecond)
 
     def parse_timebase(self, pos):
-        """ timebase is an integer, and encodes timing information as follows:
-        0 : 1 ps  / div
-        1:  2 ps / div
-        2:  5 ps/div, up to 47 = 5 ks / div. 100 for external clock"""
-
         timebase = self.parse_int16(pos)
 
         if timebase < 48:

@@ -4,7 +4,7 @@ from typing import AnyStr, Dict
 
 import vxi11
 
-from LecroyScopeData import LecroyScopeData
+from data import LecroyScopeData
 
 
 def _escape(value):
@@ -32,10 +32,6 @@ class TriggerType(Enum):
 
 class LecroyScope:
     def __init__(self, ip):
-        """
-        Constructor of the LecroyScope class.
-        """
-
         self.available_channels = []
         self.available_parameters = []
 

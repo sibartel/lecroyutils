@@ -1,10 +1,13 @@
 import re
 from enum import Enum
-from typing import AnyStr, Dict
+from typing import AnyStr, Dict, Union
 
 import vxi11
 
 from data import LecroyScopeData
+
+
+VBSValue = Union[str, int, float]
 
 
 def _escape(value):
@@ -31,17 +34,17 @@ class TriggerType(Enum):
 
 
 class LecroyScope:
-    def __init__(self, ip):
+    def __init__(self, ip: str) -> None:
         self.available_channels = []
         self.available_parameters = []
 
         self.scope = vxi11.Instrument(ip)
         self._parse_available_resources()
 
-    def _action(self, action):
+    def _action(self, action: str):
         self.scope.write(f'VBS \'{action}\'')
 
-    def _method(self, method, *args, timeout=None):
+    def _method(self, method: str, *args: VBSValue, timeout: float = None) -> str:
         old_timeout = self.scope.timeout
         if timeout is not None:
             self.scope.timeout = timeout + old_timeout
@@ -53,14 +56,14 @@ class LecroyScope:
         self.scope.timeout = old_timeout
         return response
 
-    def _set(self, var, value):
+    def _set(self, var: str, value: VBSValue):
         self.scope.write(f'VBS \'{var} = {_escape(value)}\'')
 
-    def _read(self, var):
+    def _read(self, var: str) -> str:
         self.scope.write(f'VBS? \'return = {var}\'')
         return self.scope.read()[4:]
 
-    def is_idle(self):
+    def is_idle(self) -> str:
         return self._method('app.WaitUntilIdle', 5)
 
     def _parse_available_resources(self):
@@ -70,15 +73,15 @@ class LecroyScope:
             elif re.match(r"P\d.*", resource):
                 self.available_parameters.append(resource)
 
-    def check_source(self, source):
+    def check_source(self, source: str):
         # currently no digital channels supported
         self.check_channel(source)
 
-    def check_channel(self, channel):
+    def check_channel(self, channel: str):
         if channel.upper() not in self.available_channels:
             raise Exception(f'Channel {channel} not available.')
 
-    def check_parameter(self, parameter):
+    def check_parameter(self, parameter: str):
         if parameter.upper() not in self.available_parameters:
             raise Exception(f'Parameter {parameter} not available.')
 
@@ -94,11 +97,11 @@ class LecroyScope:
         self._set('app.Acquisition.TriggerMode', mode.value)
 
     @property
-    def trigger_source(self):
+    def trigger_source(self) -> str:
         return self._read('app.Acquisition.Trigger.Source')
 
     @trigger_source.setter
-    def trigger_source(self, source):
+    def trigger_source(self, source: str):
         if source.upper() not in ['EXT', 'LINE']:
             self.check_source(source)
         self._set('app.Acquisition.Trigger.Source', source.upper())
@@ -112,11 +115,11 @@ class LecroyScope:
         self._set('app.Acquisition.Trigger.Type', new_type.value)
 
     @property
-    def trigger_level(self):
+    def trigger_level(self) -> str:
         return self._read(f'app.Acquisition.Trigger.{self.trigger_source}.Level')
 
     @trigger_level.setter
-    def trigger_level(self, level):
+    def trigger_level(self, level: VBSValue):
         source = self.trigger_source
         if source not in ['EXT', *self.available_channels]:
             raise NotImplementedError(f'Setting of trigger_level not supported for current trigger_source ({source}).')

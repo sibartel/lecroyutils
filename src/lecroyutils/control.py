@@ -72,7 +72,7 @@ class LecroyScope:
 
     def check_source(self, source):
         # currently no digital channels supported
-        self.check_source(source)
+        self.check_channel(source)
 
     def check_channel(self, channel):
         if channel.upper() not in self.available_channels:

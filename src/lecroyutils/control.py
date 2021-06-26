@@ -10,7 +10,7 @@ from data import LecroyScopeData
 VBSValue = Union[str, int, float]
 
 
-def _escape(value):
+def _escape(value: VBSValue) -> str:
     if isinstance(value, str):
         return f'"{value}"'
     return repr(value)
@@ -34,7 +34,18 @@ class TriggerType(Enum):
 
 
 class LecroyScope:
+    """
+    Allows to control a lecroy oscilloscopes per vxi11.
+
+    The remote connection settings in the oscilloscope must be set to vxi11.
+    """
+
     def __init__(self, ip: str) -> None:
+        """
+        Connects to an oscilloscope defined by the given ip.
+
+        :param ip: the ip address of the oscilloscope to connect to
+        """
         self.available_channels = []
         self.available_parameters = []
 

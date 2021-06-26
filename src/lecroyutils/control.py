@@ -162,5 +162,5 @@ class LecroyScope:
         with open(file_path, 'wb') as f:
             f.write(self._waveform_raw(source))
 
-    def save_waveform_on_leycroy(self):
+    def save_waveform_on_lecroy(self):
         self._action('app.SaveRecall.Waveform.SaveFile')

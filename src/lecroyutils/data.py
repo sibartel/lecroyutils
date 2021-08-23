@@ -117,8 +117,8 @@ class LecroyScopeData(object):
                     dtype=np.dtype((self.endianness + "f8", 2 * self.subarray_count)),
                     count=1
                 )[0]
-                self.trigger_times = interleaved_data[::2]
-                self.trigger_offsets = interleaved_data[1::2]
+                self.trigger_times = np.ascontiguousarray(interleaved_data[::2])
+                self.trigger_offsets = np.ascontiguousarray(interleaved_data[1::2])
 
                 points_per_subarray = int(self.count_wave_array / self.subarray_count)
 

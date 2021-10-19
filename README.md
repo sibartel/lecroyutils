@@ -1,4 +1,7 @@
 # lecroyutils
+
+[![pypi](https://badgen.net/pypi/v/lecroyutils/)](https://pypi.org/project/lecroyutils/)
+
 Library to communicate and parse .trc files with/from LeCroy oscilloscopes.
 
 This library is based on previous work:

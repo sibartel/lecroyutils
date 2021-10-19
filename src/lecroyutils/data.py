@@ -97,6 +97,7 @@ class LecroyScopeData(object):
             self.fs = 1 / self.horizontal_interval
 
             self.vertical_coupling = ["DC50", "GND", "DC1M", "GND", "AC1M"][self._parse_int16(326)]
+            self.fixed_vert_gain = self._parse_fixed_vert_gain(332)
             self.bandwidth_limit = ["off", "on"][self._parse_int16(334)]
             self.wave_source = ["C1", "C2", "C3", "C4", "ND"][self._parse_int16(344)]
 
@@ -194,3 +195,10 @@ class LecroyScopeData(object):
             return "{} ".format(value) + unit.strip() + "s/div"
         elif timebase == 100:
             return "EXTERNAL"
+
+    def _parse_fixed_vert_gain(self, pos):
+        fixed_vert_gain = self._parse_int16(pos)
+
+        unit = "um k"[int(fixed_vert_gain / 9)]
+        value = [1, 2, 5, 10, 20, 50, 100, 200, 500][fixed_vert_gain % 9]
+        return "{} ".format(value) + unit.strip() + "V/div"

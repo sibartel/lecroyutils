@@ -60,10 +60,10 @@ class LecroyScopeData(object):
             self.template_name = self._parse_string(16)
             self._comm_type = self._parse_int16(32)  # encodes whether data is stored as 8 or 16bit
 
-            self.len_wavedesc = self._parse_int32(36)
-            self.len_usertext = self._parse_int32(40)
-            self.len_triggertime_array = self._parse_int32(48)
-            self.len_wave_array_1 = self._parse_int32(60)
+            self._len_wavedesc = self._parse_int32(36)
+            self._len_usertext = self._parse_int32(40)
+            self._len_triggertime_array = self._parse_int32(48)
+            self._len_wave_array_1 = self._parse_int32(60)
 
             self.instrument_name = self._parse_string(76)
             self.instrument_number = self._parse_int32(92)
@@ -101,9 +101,9 @@ class LecroyScopeData(object):
             self.bandwidth_limit = ["off", "on"][self._parse_int16(334)]
             self.wave_source = ["C1", "C2", "C3", "C4", "ND"][self._parse_int16(344)]
 
-            start = self._pos_wavedesc + self.len_wavedesc + self.len_usertext + self.len_triggertime_array
+            start = self._pos_wavedesc + self._len_wavedesc + self._len_usertext + self._len_triggertime_array
             type_identifier = self.endianness + ("i1" if self._comm_type == 0 else "i2")
-            self.y = np.frombuffer(self.data[start:start + self.len_wave_array_1],
+            self.y = np.frombuffer(self.data[start:start + self._len_wave_array_1],
                                    dtype=np.dtype((type_identifier, self.count_wave_array)), count=1)[0]
             self.x = np.linspace(
                 0, self.count_wave_array * self.horizontal_interval, num=self.count_wave_array
@@ -112,9 +112,9 @@ class LecroyScopeData(object):
             self.is_sequence = self.subarray_count > 1
             if self.is_sequence:
                 # Sequence Mode
-                start = self._pos_wavedesc + self.len_wavedesc + self.len_usertext
+                start = self._pos_wavedesc + self._len_wavedesc + self._len_usertext
                 interleaved_data = np.frombuffer(
-                    self.data[start:start + self.len_triggertime_array],
+                    self.data[start:start + self._len_triggertime_array],
                     dtype=np.dtype((self.endianness + "f8", 2 * self.subarray_count)),
                     count=1
                 )[0]

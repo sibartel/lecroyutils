@@ -4,7 +4,7 @@ from typing import AnyStr, Dict, Union
 
 import vxi11
 
-from data import LecroyScopeData
+from .data import LecroyScopeData
 
 
 VBSValue = Union[str, int, float]

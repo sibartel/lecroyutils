@@ -16,6 +16,12 @@ def _escape(value: VBSValue) -> str:
     return repr(value)
 
 
+def _unpack_response(res: str) -> str:
+    if res[:4].upper() == 'VBS ':
+        return res[4:]
+    return res
+
+
 class TriggerMode(Enum):
     stopped = 'Stopped'
     single = 'Single'
@@ -62,7 +68,7 @@ class LecroyScope:
 
         arg_string = ', '.join(map(_escape, args))
         self.scope.write(f'VBS? \'return = {method}({arg_string})\'')
-        response = self.scope.read()[4:]
+        response = _unpack_response(self.scope.read())
 
         self.scope.timeout = old_timeout
         return response
@@ -72,7 +78,7 @@ class LecroyScope:
 
     def _read(self, var: str) -> str:
         self.scope.write(f'VBS? \'return = {var}\'')
-        return self.scope.read()[4:]
+        return _unpack_response(self.scope.read())
 
     def is_idle(self) -> str:
         return self._method('app.WaitUntilIdle', 5)

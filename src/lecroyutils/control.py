@@ -138,7 +138,7 @@ class LecroyScope:
     @trigger_level.setter
     def trigger_level(self, level: VBSValue):
         source = self.trigger_source
-        if source not in ['EXT', *self.available_channels]:
+        if source.upper() not in ['EXT', *self.available_channels]:
             raise NotImplementedError(f'Setting of trigger_level not supported for current trigger_source ({source}).')
 
         self._set(f'app.Acquisition.Trigger.{source}.Level', level)

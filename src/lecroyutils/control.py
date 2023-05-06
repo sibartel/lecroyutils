@@ -170,7 +170,11 @@ class LecroyScope:
     def _waveform_raw(self, source: str) -> bytes:
         self.check_source(source)
         self.scope.write(f'{source}:WF?')
-        return self.scope.read_raw()
+        bin_data = self.scope.read_raw()
+        # Strip query response
+        if bin_data[9:11] == b',#':
+            bin_data = bin_data[10:]
+        return bin_data
 
     def waveform(self, source: str) -> LecroyScopeData:
         return LecroyScopeData(self._waveform_raw(source), source_desc=f'{source}-live')

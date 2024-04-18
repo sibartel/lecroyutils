@@ -136,8 +136,10 @@ class LecroyScopeData(object):
             # If signal exceeds osci display grid: clipped_soft. If signal hits the maximum value limit: clipped_hard.
             self.clipped_soft = np.logical_or(np.amax(self.y, 0) > self.y_max, np.amin(self.y, 0) < self.y_min)
             # Experimental! Tested only with HDO4104
-            self.clipped_hard = np.logical_or(np.amax(self.y, 0) >= (32752 if self._comm_type == 0 else 127),
-                                              np.amin(self.y, 0) <= (-32768 if self._comm_type == 0 else -128))
+            self.clipped_hard = np.logical_or(np.amax(self.y, 0) >= self.vertical_gain * (
+                                                  32752 if self._comm_type == 1 else 127) - self.vertical_offset,
+                                              np.amin(self.y, 0) <= self.vertical_gain * (
+                                                  -32768 if self._comm_type == 1 else -128) - self.vertical_offset)
             if np.any(self.clipped_hard):
                 warn(f'Signal was clipped: {self.source_desc}')
 

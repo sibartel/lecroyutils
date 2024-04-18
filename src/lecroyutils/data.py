@@ -125,9 +125,10 @@ class LecroyScopeData(object):
 
                 self.y = self.y.reshape(self.subarray_count, points_per_subarray).T
 
-                self.x = np.tile(np.linspace(
-                    0, points_per_subarray * self.horizontal_interval, num=points_per_subarray
-                ) + self.horizontal_offset, (self.subarray_count, 1)) + self.trigger_times.reshape((-1, 1))
+                self.x = np.tile(
+                    np.linspace(0, points_per_subarray * self.horizontal_interval, num=points_per_subarray),
+                    (self.subarray_count, 1)) + self.trigger_times.reshape((-1, 1)) + self.trigger_offsets.reshape(
+                    (-1, 1))
                 self.x = self.x.T
 
             # now scale the ADC values
